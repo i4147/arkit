@@ -1,3 +1,5 @@
+import tarfile
+
 def validate(archive_path: str) -> bool:
     ext = _detect_format(archive_path)
     if ext.startswith("tar"):

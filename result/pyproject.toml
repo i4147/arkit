@@ -1,0 +1,112 @@
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arkit"
+version = "1.0.0"
+description = "Universal, streaming, memory-efficient, and security-hardened Python archive & compression toolkit."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "arkit contributors" },
+]
+keywords = [
+    "archive",
+    "compression",
+    "streaming",
+    "tar",
+    "zip",
+    "7z",
+    "zstd",
+    "brotli",
+    "lz4",
+    "snappy",
+    "atomic-write",
+    "virtual-filesystem",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Archiving",
+    "Topic :: System :: Archiving :: Compression",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+zstd = ["zstandard>=0.21.0"]
+brotli = ["brotli>=1.0.9"]
+lz4 = ["lz4>=4.0.0"]
+sevenzip = ["py7zr>=0.20.0"]
+snappy = ["cramjam>=2.7.0"]
+all = [
+    "zstandard>=0.21.0",
+    "brotli>=1.0.9",
+    "lz4>=4.0.0",
+    "py7zr>=0.20.0",
+    "cramjam>=2.7.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=5.0.0",
+    "mypy>=1.10.0",
+    "ruff>=0.6.0",
+    "zstandard>=0.21.0",
+    "brotli>=1.0.9",
+    "lz4>=4.0.0",
+    "py7zr>=0.20.0",
+    "cramjam>=2.7.0",
+]
+
+[project.scripts]
+arkit = "arkit.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+arkit = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -q"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+mypy_path = "src"
+packages = ["arkit"]
+
+[[tool.mypy.overrides]]
+module = [
+    "brotli",
+    "brotlicffi",
+    "py7zr",
+    "py7zr.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+src = ["src", "tests", "examples", "benchmark"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
